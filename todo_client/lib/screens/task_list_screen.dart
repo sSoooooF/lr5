@@ -16,14 +16,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<dynamic> _tasks = []; // Список задач
+  List<dynamic> _tasks = [];
   bool _isLoading = true;
   String? _errorMessage;
 
   @override
   void initState() {
     super.initState();
-    _fetchTasks(); // Загрузка задач при старте экрана
+    _fetchTasks();
   }
 
   Future<void> _fetchTasks() async {
@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _errorMessage = null;
     });
 
-    final url = Uri.parse('http://localhost:5000/tasks'); // URL для задач
+    final url = Uri.parse('http://localhost:5000/tasks');
     try {
       final response = await http.get(
         url,
@@ -187,12 +187,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       description: task['description'],
                       isDone: task['done'],
                       onTap: () {
-                        // Переход на экран с комментариями для задачи
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => TaskDetailScreen(
-                              taskId: task['id'], // Передаем ID задачи
+                              token: widget.token,
+                              taskId: task['id'],
                             ),
                           ),
                         );
@@ -210,7 +210,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Диалог для добавления новой задачи
   void _showAddTaskDialog(BuildContext context) {
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
@@ -236,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context); // Закрытие диалога
+                Navigator.pop(context);
               },
               child: const Text('Отмена'),
             ),
@@ -246,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 String description = descriptionController.text;
                 if (title.isNotEmpty) {
                   _addTask(title, description);
-                  Navigator.pop(context); // Закрытие диалога
+                  Navigator.pop(context);
                 } else {
                   _showErrorMessage('Заголовок не может быть пустым');
                 }
@@ -260,13 +259,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// Виджет для отображения одной задачи
 class TaskCard extends StatelessWidget {
   final String title;
   final String description;
   final bool isDone;
-  final VoidCallback onTap; // Добавляем коллбек для нажатия на задачу
-
+  final VoidCallback onTap; 
   const TaskCard({
     Key? key,
     required this.title,

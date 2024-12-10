@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginScreen extends StatefulWidget {
   final Function(String) onLogin;
 
-  const LoginScreen({Key? key, required this.onLogin}) : super(key: key);
+  const LoginScreen({super.key, required this.onLogin});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
